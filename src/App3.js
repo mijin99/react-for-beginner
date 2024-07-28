@@ -1,0 +1,31 @@
+import Button from "./Button";
+import styles from "./App.module.css";
+import { useState, useEffect } from "react";
+
+
+function App() {
+  const [toDo, setToDo] = useState("");
+  const [toDos, setToDos] = useState([]);
+  const onChange = (event) => setToDo(event.target.value);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (toDo === "") {
+      return;
+    }                             //이전배열
+    setToDos(currentArray => [toDo, ...currentArray])
+    setToDo("");
+  };
+  console.log(toDos);
+  return (
+    <div>
+      <h1>My To Do ({toDos.length})</h1>
+      <form onSubmit={onSubmit}>
+        <input onChange={onChange} value={toDo} type="text" placeholder="Write your to do"></input>
+        <button>Add To Do </button>
+      </form>
+
+    </div>
+  );
+}
+
+export default App;
