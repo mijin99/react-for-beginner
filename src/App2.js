@@ -2,32 +2,39 @@ import Button from "./Button";
 import styles from "./App.module.css";
 import { useState, useEffect } from "react";
 
+function Hello(){
+ /*  아래 익명 함수로 만든 useEffect랑 동일 기능 
+ function byFn(){
+    console.log("bye");
+  }
+  function hiFn(){
+    console.log("created : )");
+    return byFn;
+  } */
+
+  useEffect(()=>{
+    console.log("hi");
+    return ()=> console.log("bye");
+  },[])
+  /* 바로 위 useEffect과 같은 기능인데, 요즘은 function을 명시적으로 쓰지x 
+  useEffect(function(){
+    console.log("hi");
+    return function(){console.log("bye")};
+  },[]); */
+
+ // useEffect(hiFn,[])
+  return <h1>Hello</h1>
+}
+
 function App() {
-  const [counter, setValue] = useState(0);
-  const [keyword, setKeyword] = useState("");
-  const onClick = () => setValue((prev) => prev + 1); //이전 상태 가져오기
-  const onChange = (event) => setKeyword(event.target.value);
-  //reder 중복 실행 방지용 함수 최조 1번만 실행
-  useEffect(() => {
-    console.log("i run only once")
-  }, []);
-  //keyword가 변할 떄마다 리렌더
-  useEffect (()=>{
-   console.log("i run when keyword changes")
-  },[keyword]);
-  useEffect (()=>{
-    console.log("i run when counter changes")
-   },[counter]);
-  return (
-    <div>
-      <input value={keyword}
-        onChange={onChange}
-        type="text"
-        placeholder="Search here" />
-      <h1>{counter}</h1>
-      <button onClick={onClick}>click me</button>
-    </div>
-  );
+  const [showing,setShowing] =useState(false);
+  const onClick =()=> setShowing((prev) =>!prev);
+ return(
+  <div>
+    {showing? <Hello/>: null}
+    <button onClick={onClick}>{showing?"Hide":"Show"}</button>
+  </div>
+ );
 }
 
 export default App;
