@@ -8,7 +8,9 @@ function App() {
   const [selCoins, setSelCoins] = useState("0");
   const [result, setResult] = useState("0");
   const onChange = (event) => {
+    const selectedCoin = coins.find((coin)=>coin.id===event.target.value);
       setSelCoins(event.target.value);
+      console.log(selectedCoin);
   }
   const onSubmit=(event)=>{
     event.preventDefault();
@@ -18,7 +20,7 @@ function App() {
   const calculate=(priceUSD)=>{
     setResult(priceUSD * selCoins);
   }
-  
+
   useEffect(() => {
     fetch("https://api.coinpaprika.com/v1/tickers")
       .then((response) => response.json()
@@ -34,8 +36,8 @@ function App() {
       <h1>The Coins! {loading ? "" : `(${coins.length})`}</h1>
       {loading ? <strong>Loading.....</strong>
         : <select onChange={onChange}>       {/*coin 은 coins배열 안에 각각 코인 */}
-          {coins.map((coin) => (
-            <option>
+          {coins.map((coin,index) => (
+            <option key={index}>
               {coins.name}({coin.symbol}):${coin.quotes.USD.price} USD
             </option>
           ))};
