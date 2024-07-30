@@ -7,19 +7,23 @@ function App() {
   const [coins, setCoins] = useState([]);
   const [selCoins, setSelCoins] = useState("0");
   const [result, setResult] = useState("0");
+  const [myMoney,setMyMoney] =useState("0");
+  
+  const onInput = (event) => {
+    setMyMoney(event.target.value);
+  }
   const onChange = (event) => {
-    const selectedCoin = coins.find((coin)=>coin.id===event.target.value);
-      setSelCoins(event.target.value);
+     const selectedCoin = coins[event.target.selectedIndex].quotes.USD.price; //coins.find((coin)=>coin.id===event.target.value);
+     //const symbol =coins[e.tartget.selectedIndex-1].symbol;
+     setSelCoins(parseFloat(selectedCoin));
+     
       console.log(selectedCoin);
   }
-  const onSubmit=(event)=>{
+  const onSubmit=(event)=>{ 
     event.preventDefault();
-    const priceUSD =event.target[0].value;
-    calculate(priceUSD);
+    setResult ( myMoney /selCoins);
   }
-  const calculate=(priceUSD)=>{
-    setResult(priceUSD * selCoins);
-  }
+ 
 
   useEffect(() => {
     fetch("https://api.coinpaprika.com/v1/tickers")
@@ -43,7 +47,7 @@ function App() {
           ))};
         </select>}
       <form onSubmit={onSubmit}>
-        <input type="number" placeholder="write us dollarss" />
+        <input onChange={onInput} value ={myMoney} type="number" placeholder="write us dollars" />
         <button>change coins</button>
       </form>
       <h2>you can change {result} coins!</h2>
