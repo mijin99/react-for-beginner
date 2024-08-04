@@ -5,7 +5,7 @@ function Moviecp({ id, mvName, openDt }) {
     {/* 이미지를 넣는 경우
      <img src={medinum_cover_image} alt=""></img> */}
     <h2> <Link to={`/movie/${id}`}>{mvName}</Link></h2>
-    <p>{openDt}</p>
+    <p>{openDt.length >235 ? `${openDt.slice(0,235)}...`:openDt}</p>
     <ul>
       <li>
         {/* 배열 속 배열안의 장르를 가져옴
